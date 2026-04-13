@@ -10,6 +10,19 @@
 !.yarn/releases
 !.yarn/versions
 
+.bun/
+
+# prisma
+prisma/migrations/
+
+# tests
+/playwright-report/
+/test-results/
+
+# OS
+.DS_Store
+Thumbs.db
+
 # testing
 /coverage
 
@@ -39,3 +52,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/src/generated/prisma
