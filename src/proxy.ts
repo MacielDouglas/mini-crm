@@ -8,17 +8,18 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const session = getSessionCookie(request);
 
-  const isPublicRoute = PUBLIC_ROUTES.some((route) =>
-    pathname.startsWith(route),
-  );
+  const isPublicRoute =
+    PUBLIC_ROUTES.some((route) => pathname.startsWith(route)) ||
+    pathname === "/onboarding";
+
   const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
 
-  // Usuário autenticado tentando acessar login/register → redireciona para dashboard
+  // Autenticado tentando acessar login/register → dashboard
   if (session && isAuthRoute) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Usuário não autenticado tentando acessar rota protegida → redireciona para login
+  // Não autenticado tentando acessar rota protegida → login
   if (!session && !isPublicRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
   }

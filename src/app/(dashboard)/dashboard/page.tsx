@@ -6,6 +6,7 @@ import { getDashboardStats } from "@/features/dashboard/actions/get-dashboard-st
 import { auth } from "@/shared/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { prisma } from "@/shared/lib/prisma";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -14,23 +15,26 @@ export default async function DashboardPage() {
 
   if (!session) redirect("/login");
 
-  // Por agora usamos um organizationId placeholder
-  // Na próxima etapa implementamos o onboarding de organização
-  const organizationId = session.user.id;
+  // Buscar organização do usuário
+  const member = await prisma.organizationMember.findFirst({
+    where: { userId: session.user.id },
+    include: { organization: true },
+  });
 
-  const stats = await getDashboardStats(organizationId);
+  // Sem organização → onboarding
+  if (!member) redirect("/onboarding");
+
+  const stats = await getDashboardStats(member.organization.id);
 
   return (
     <div className="space-y-6">
       <Header title="Dashboard" />
-
       <StatsCards
         totalLeads={stats.totalLeads}
         wonLeads={stats.wonLeads}
         conversionRate={stats.conversionRate}
         pipelineValue={stats.pipelineValue}
       />
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <PipelineChart data={stats.leadsByStage} />
         <RecentLeads leads={stats.recentLeads} />
