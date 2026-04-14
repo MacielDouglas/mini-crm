@@ -64,7 +64,7 @@ export function UserMenu() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <a href="/dashboard/settings">
+          <a href="/dashboard/profile">
             <User className="mr-2 size-4" aria-hidden />
             Perfil
           </a>

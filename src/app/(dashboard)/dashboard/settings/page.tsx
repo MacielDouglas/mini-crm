@@ -37,7 +37,8 @@ export default async function SettingsPage() {
   ]);
 
   // Só admin pode acessar configurações
-  if (member.role !== "ADMIN") redirect("/dashboard");
+  if (member.role !== "ADMIN" && member.role !== "OWNER")
+    redirect("/dashboard");
 
   return (
     <div className="space-y-6 max-w-2xl">
