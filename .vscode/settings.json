@@ -15,5 +15,7 @@
   },
   "editor.quickSuggestions": {
     "strings": "on"
-  }
+  },
+  "json.schemas": [],
+  "http.proxyStrictSSL": false
 }
