@@ -5,17 +5,15 @@ import { auth } from "@/shared/lib/auth";
 import { headers } from "next/headers";
 
 interface CreateInteractionInput {
-  leadId: string;
+  leadId?: string;
+  customerId?: string;
   type: string;
   title?: string;
   content: string;
 }
 
 export async function createInteraction(data: CreateInteractionInput) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
+  const session = await auth.api.getSession({ headers: await headers() });
   if (!session) return { error: "Não autorizado" };
 
   const interactionTypeLabels: Record<string, string> = {
@@ -29,7 +27,8 @@ export async function createInteraction(data: CreateInteractionInput) {
   try {
     await prisma.interaction.create({
       data: {
-        leadId: data.leadId,
+        leadId: data.leadId ?? null,
+        customerId: data.customerId ?? null,
         type: data.type as never,
         title: data.title ?? interactionTypeLabels[data.type] ?? data.type,
         content: data.content,

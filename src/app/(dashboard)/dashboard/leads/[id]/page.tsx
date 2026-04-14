@@ -10,6 +10,7 @@ import { LeadDetailCard } from "@/features/leads/components/lead-detail-card";
 import { LeadEditDialog } from "@/features/leads/components/lead-edit-dialog";
 import { LeadInteractions } from "@/features/leads/components/lead-interactions";
 import { DeleteLeadDialog } from "@/features/leads/components/delete-lead-dialog";
+import { ConvertLeadDialog } from "@/features/customers/components/customer-form-dialog";
 
 interface LeadPageProps {
   params: Promise<{ id: string }>;
@@ -74,6 +75,16 @@ export default async function LeadPage({ params }: LeadPageProps) {
             organizationId={member.organization.id}
             stages={stages}
             defaultValues={defaultValues}
+          />
+          <ConvertLeadDialog
+            organizationId={member.organization.id}
+            lead={{
+              id: typedLead.id,
+              name: typedLead.name,
+              email: typedLead.email,
+              phone: typedLead.phone,
+              company: typedLead.company,
+            }}
           />
           <DeleteLeadDialog
             leadId={lead.id}
