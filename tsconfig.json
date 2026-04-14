@@ -18,8 +18,9 @@
         "name": "next"
       }
     ],
-      "paths": {
+    "paths": {
       "@/*": ["./src/*"],
+      "@/lib/utils": ["./src/shared/utils/utils.ts"],
       "prisma/config": ["./node_modules/prisma/config.d.ts"]
     }
   },
