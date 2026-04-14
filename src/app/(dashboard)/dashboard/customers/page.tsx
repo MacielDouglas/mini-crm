@@ -4,9 +4,9 @@ import { auth } from "@/shared/lib/auth";
 import { prisma } from "@/shared/lib/prisma";
 import { Header } from "@/shared/components/header";
 import { CustomersTable } from "@/features/customers/components/customers-table";
+import { CustomersSearch } from "@/features/customers/components/customers-search";
+import { Pagination } from "@/shared/components/pagination";
 import { getCustomers } from "@/features/customers/actions/get-customers";
-import { Input } from "@/shared/components/ui/input";
-import { Search } from "lucide-react";
 
 interface CustomersPageProps {
   searchParams: Promise<{ search?: string; page?: string }>;
@@ -26,11 +26,14 @@ export default async function CustomersPage({
 
   const params = await searchParams;
   const organizationId = member.organization.id;
+  const currentPage = params.page ? parseInt(params.page) : 1;
+  const pageSize = 20;
 
   const { customers, total } = await getCustomers({
     organizationId,
     search: params.search,
-    page: params.page ? parseInt(params.page) : 1,
+    page: currentPage,
+    pageSize,
   });
 
   return (
@@ -42,20 +45,9 @@ export default async function CustomersPage({
         </p>
       </div>
 
-      <div className="relative max-w-sm">
-        <Search
-          className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
-          aria-hidden
-        />
-        <Input
-          placeholder="Buscar por nome, e-mail ou empresa..."
-          defaultValue={params.search ?? ""}
-          className="pl-9"
-          aria-label="Buscar clientes"
-        />
-      </div>
-
+      <CustomersSearch />
       <CustomersTable customers={customers} />
+      <Pagination total={total} pageSize={pageSize} currentPage={currentPage} />
     </div>
   );
 }
