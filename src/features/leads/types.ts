@@ -42,7 +42,7 @@ export const leadSchema = z.object({
     .max(2000, "Notas muito longas")
     .optional()
     .or(z.literal("")),
-  expectedCloseAt: z.string().optional().or(z.literal("")),
+  expectedCloseAt: z.coerce.date().optional(),
   assignedToId: z.string().optional().or(z.literal("")),
 });
 
