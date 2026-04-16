@@ -1,5 +1,8 @@
 import { config } from "dotenv";
-config({ path: ".env", override: true }); // carrega .env.test
+
+if (!process.env.DATABASE_URL) {
+  config({ path: ".env", override: true });
+}
 
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -9,8 +12,11 @@ import { auth } from "../src/shared/lib/auth";
 // Cria o cliente diretamente, sem depender do prisma.ts compartilhado
 const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: true },
+  ...(process.env.NODE_ENV === "production" && {
+    ssl: { rejectUnauthorized: true },
+  }),
 });
+
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
