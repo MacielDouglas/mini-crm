@@ -10,7 +10,6 @@ jobs:
   unit-tests:
     name: Unit & Integration Tests
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:16
@@ -25,38 +24,25 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/minicrm_test
       BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
       BETTER_AUTH_URL: http://localhost:3000
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Generate Prisma client
-        run: bunx prisma generate
-
+      - run: bun install
+      - run: bunx prisma generate
       - name: Run migrations
-        run: bunx prisma migrate deploy
-
-      - name: Run unit & integration tests
-        run: bun run test
+        run: bunx prisma db push --accept-data-loss # ← corrigido
+      - run: bun run test
 
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
-    needs: unit-tests # só roda se os unit tests passarem
-
+    needs: unit-tests
     services:
       postgres:
         image: postgres:16
@@ -71,52 +57,34 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/minicrm_test
       BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
       BETTER_AUTH_URL: http://localhost:3000
       TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
       TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Generate Prisma client
-        run: bunx prisma generate
-
+      - run: bun install
+      - run: bunx prisma generate
       - name: Run migrations
         run: bunx prisma db push --accept-data-loss
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/minicrm_test
-
       - name: Seed test user
         run: bun run db:seed
-        env:
-          SEED_TEST_USER: true
-
-      - name: Install Playwright browsers
-        run: bunx playwright install --with-deps chromium
-
+      - run: bunx playwright install --with-deps chromium
       - name: Build app
         run: bun run build
         env:
-          SKIP_ENV_VALIDATION: true
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL: http://localhost:3000
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/minicrm_test
           NEXT_PUBLIC_APP_URL: http://localhost:3000
-
       - name: Run E2E tests
         run: bunx playwright test
-        continue-on-error: true # ← não bloqueia o comentário se testes falharem
-
+        continue-on-error: true
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -124,13 +92,12 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-
       - name: Comment test results on PR
         uses: daun/playwright-report-summary@v3
         if: always()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           report-file: playwright-report/report.json
-          job-summary: true # aparece também no resumo do workflow
+          job-summary: true
           icon-style: emojis
           comment-title: "🎭 E2E Test Results"
