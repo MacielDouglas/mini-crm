@@ -1,5 +1,4 @@
 import { config } from "dotenv";
-
 if (!process.env.DATABASE_URL) {
   config({ path: ".env", override: true });
 }
@@ -7,14 +6,11 @@ if (!process.env.DATABASE_URL) {
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
-import { auth } from "../src/shared/lib/auth";
+import bcrypt from "bcryptjs";
 
-// Cria o cliente diretamente, sem depender do prisma.ts compartilhado
 const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
-  ...(process.env.NODE_ENV === "production" && {
-    ssl: { rejectUnauthorized: true },
-  }),
+  ssl: false,
 });
 
 const adapter = new PrismaPg(pool);
@@ -26,23 +22,30 @@ async function main() {
   const testEmail = process.env.TEST_EMAIL ?? "test@minicrm.com";
   const testPassword = process.env.TEST_PASSWORD ?? "Test@1234";
 
-  const existing = await prisma.user.findUnique({
-    where: { email: testEmail },
-  });
+  // ── Usuário ──────────────────────────────────────────────
+  let user = await prisma.user.findUnique({ where: { email: testEmail } });
 
-  if (!existing) {
-    await auth.api.signUpEmail({
-      body: { name: "Usuário Teste", email: testEmail, password: testPassword },
+  if (!user) {
+    user = await prisma.user.create({
+      data: {
+        name: "Usuário Teste",
+        email: testEmail,
+        emailVerified: true,
+        accounts: {
+          create: {
+            accountId: testEmail,
+            providerId: "credential",
+            password: await bcrypt.hash(testPassword, 10),
+          },
+        },
+      },
     });
     console.log(`✅ Usuário criado: ${testEmail}`);
   } else {
     console.log(`⏭️ Usuário já existe: ${testEmail}`);
   }
 
-  const user = await prisma.user.findUniqueOrThrow({
-    where: { email: testEmail },
-  });
-
+  // ── Organização ──────────────────────────────────────────
   const orgExists = await prisma.organization.findUnique({
     where: { slug: "org-teste" },
   });
@@ -82,6 +85,7 @@ async function main() {
     console.log(`⏭️ Organização já existe: ${org.name}`);
   }
 
+  // ── Lead ─────────────────────────────────────────────────
   const firstStage = org.pipeline[0];
   const leadExists = await prisma.lead.findUnique({
     where: { id: "lead-e2e-test" },
