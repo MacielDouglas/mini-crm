@@ -38,7 +38,7 @@ export function PipelineBoard({
   // Estado local: mapa de leadId → stageId para drag otimista
   const [leadStages, setLeadStages] =
     useState<Record<string, string>>(stageMap);
-  const [leads] = useState<PipelineLead[]>(initialLeads);
+  const [leads, _setLeads] = useState<PipelineLead[]>(initialLeads);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
 
@@ -66,32 +66,25 @@ export function PipelineBoard({
   async function handleDragEnd({ active, over }: DragEndEvent) {
     setActiveId(null);
     setOverId(null);
-
     if (!over) return;
 
     const leadId = active.id as string;
     const targetId = over.id as string;
+    const previousStageId = leadStages[leadId]; // ← captura ANTES
 
-    // Determina o stageId de destino
-    // Se o targetId é um stage → move para esse stage
-    // Se o targetId é um lead → move para o stage desse lead
     const targetStageId = stages.find((s) => s.id === targetId)
       ? targetId
-      : (leadStages[targetId] ?? leadStages[leadId]);
+      : (leadStages[targetId] ?? previousStageId);
 
-    if (!targetStageId || targetStageId === leadStages[leadId]) return;
+    if (!targetStageId || targetStageId === previousStageId) return;
 
-    // Atualização otimista
     setLeadStages((prev) => ({ ...prev, [leadId]: targetStageId }));
 
-    // Persiste no servidor
     const result = await moveLead(leadId, targetStageId);
     if (result?.error) {
-      // Reverte em caso de erro
-      setLeadStages((prev) => ({ ...prev, [leadId]: leadStages[leadId] }));
+      setLeadStages((prev) => ({ ...prev, [leadId]: previousStageId }));
     }
   }
-
   const activeLead = leads.find((l) => l.id === activeId);
 
   return (

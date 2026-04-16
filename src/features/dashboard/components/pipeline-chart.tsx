@@ -54,9 +54,14 @@ export function PipelineChart({ data }: PipelineChartProps) {
             <Bar
               dataKey="count"
               name="Leads"
-              fill="hsl(var(--primary))"
               radius={[4, 4, 0, 0]}
-            />
+              fill="#6366f1"
+              label={false}
+            >
+              {data.map((entry, index) => (
+                <rect key={index} fill={entry.color} />
+              ))}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

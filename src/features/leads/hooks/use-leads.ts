@@ -12,17 +12,21 @@ export function useLeads(organizationId: string) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
-  async function handleCreate(data: LeadSchema) {
+  async function handleCreate(data: LeadSchema): Promise<boolean> {
     setError(null);
-    startTransition(async () => {
-      const result = await createLead(organizationId, data);
-      if (result?.error) {
-        setError(result.error);
-        return;
-      }
-      router.refresh();
+
+    return new Promise((resolve) => {
+      startTransition(async () => {
+        const result = await createLead(organizationId, data);
+        if (result?.error) {
+          setError(result.error);
+          resolve(false);
+          return;
+        }
+        router.refresh();
+        resolve(true);
+      });
     });
-    return !error;
   }
 
   async function handleUpdate(leadId: string, data: Partial<LeadSchema>) {

@@ -21,7 +21,12 @@ export const leadSchema = z.object({
     .max(100, "Cargo muito longo")
     .optional()
     .or(z.literal("")),
-  website: z.string().url("URL inválida").optional().or(z.literal("")),
+  website: z
+    .string()
+    .optional()
+    .refine((v) => !v || z.string().url().safeParse(v).success, {
+      message: "URL inválida",
+    }),
   stageId: z.string().min(1, "Estágio é obrigatório"),
   source: z.enum([
     "WEBSITE",
@@ -33,16 +38,24 @@ export const leadSchema = z.object({
     "OTHER",
   ]),
   value: z
-    .string()
+    .union([z.string(), z.number()])
     .optional()
-    .or(z.literal(""))
-    .transform((v) => (v ? parseFloat(v) : undefined)),
+    .transform((v) => {
+      if (v === "" || v === null || v === undefined) return undefined;
+      return typeof v === "number" ? v : parseFloat(v);
+    }),
   notes: z
     .string()
     .max(2000, "Notas muito longas")
     .optional()
     .or(z.literal("")),
-  expectedCloseAt: z.coerce.date().optional(),
+  expectedCloseAt: z
+    .union([z.string(), z.date()])
+    .optional()
+    .transform((v) => {
+      if (!v) return undefined;
+      return new Date(v);
+    }),
   assignedToId: z.string().optional().or(z.literal("")),
 });
 

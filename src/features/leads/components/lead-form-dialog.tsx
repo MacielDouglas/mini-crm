@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogFooter,
   DialogTrigger,
+  DialogDescription,
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button";
 import { Loader2, Plus } from "lucide-react";
@@ -28,8 +29,8 @@ export function LeadFormDialog({
   const { isPending, error, handleCreate } = useLeads(organizationId);
 
   async function onSubmit(data: LeadSchema) {
-    await handleCreate(data);
-    if (!error) setOpen(false);
+    const success = await handleCreate(data);
+    if (success) setOpen(false);
   }
 
   return (
@@ -44,6 +45,9 @@ export function LeadFormDialog({
       <DialogContent className="max-w-2xl max-h-[90dvh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Adicionar Lead</DialogTitle>
+          <DialogDescription>
+            Preencha os dados do novo lead para adicioná-lo ao pipeline.
+          </DialogDescription>
         </DialogHeader>
 
         {error && (

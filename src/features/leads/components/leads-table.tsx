@@ -24,7 +24,7 @@ interface Lead {
   company: string | null;
   value: unknown;
   aiScore: number | null;
-  createdAt: Date;
+  createdAt: string; // ← era Date, agora string
   source: string;
   stage: { id: string; name: string; color: string };
   assignedTo: { id: string; name: string; image: string | null } | null;
@@ -131,8 +131,8 @@ export function LeadsTable({ leads, organizationId }: LeadsTableProps) {
               </TableCell>
 
               <TableCell className="hidden md:table-cell text-sm text-muted-foreground">
-                <time dateTime={lead.createdAt.toISOString()}>
-                  {formatDistanceToNow(lead.createdAt, {
+                <time dateTime={lead.createdAt}>
+                  {formatDistanceToNow(new Date(lead.createdAt), {
                     addSuffix: true,
                     locale: ptBR,
                   })}

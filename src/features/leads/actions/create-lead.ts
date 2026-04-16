@@ -6,11 +6,10 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { leadSchema, type LeadSchema } from "../types";
 import { LeadStatus } from "@/generated/prisma/client";
+import { serializeLead } from "../../../shared/utils/serialize-lead";
 
 export async function createLead(organizationId: string, data: LeadSchema) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await auth.api.getSession({ headers: await headers() });
   if (!session) return { error: "Não autenticado" };
 
   const parsed = leadSchema.safeParse(data);
@@ -20,26 +19,34 @@ export async function createLead(organizationId: string, data: LeadSchema) {
 
   const { value, expectedCloseAt, assignedToId, ...rest } = parsed.data;
 
-  const lead = await prisma.lead.create({
-    data: {
-      ...rest,
-      email: rest.email || null,
-      phone: rest.phone || null,
-      company: rest.company || null,
-      jobTitle: rest.jobTitle || null,
-      website: rest.website || null,
-      notes: rest.notes || null,
-      organizationId,
-      createdById: session.user.id,
-      status: LeadStatus.NEW,
-      value: value ?? null,
-      assignedToId: assignedToId || null,
-      expectedCloseAt: expectedCloseAt ? new Date(expectedCloseAt) : null,
-    },
-  });
+  try {
+    const lead = await prisma.lead.create({
+      data: {
+        ...rest,
+        email: rest.email || null,
+        phone: rest.phone || null,
+        company: rest.company || null,
+        jobTitle: rest.jobTitle || null,
+        website: rest.website || null,
+        notes: rest.notes || null,
+        organizationId,
+        createdById: session.user.id,
+        status: LeadStatus.NEW,
+        value: value ?? null,
+        assignedToId: assignedToId || null,
+        expectedCloseAt: expectedCloseAt ? new Date(expectedCloseAt) : null,
+      },
+    });
 
-  revalidatePath("/dashboard/leads");
-  revalidatePath("/dashboard");
+    revalidatePath("/dashboard/leads");
+    revalidatePath("/dashboard");
 
-  return { success: true, lead };
+    return {
+      success: true,
+      lead: serializeLead(lead),
+    };
+  } catch (e) {
+    console.error("createLead error:", e);
+    return { error: "Erro ao salvar lead. Tente novamente." };
+  }
 }

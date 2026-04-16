@@ -3,6 +3,7 @@
 import { prisma } from "@/shared/lib/prisma";
 import { auth } from "@/shared/lib/auth";
 import { headers } from "next/headers";
+import { serializeLead } from "../../../shared/utils/serialize-lead";
 
 export interface GetLeadsParams {
   organizationId: string;
@@ -56,7 +57,7 @@ export async function getLeads({
   ]);
 
   return {
-    leads,
+    leads: leads.map(serializeLead),
     total,
     pages: Math.ceil(total / limit),
     page,

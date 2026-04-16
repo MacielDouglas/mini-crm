@@ -168,8 +168,11 @@ export function LeadForm({ stages, defaultValues, onSubmit }: LeadFormProps) {
           min="0"
           step="0.01"
           placeholder="0,00"
-          {...register("value", { valueAsNumber: true })}
+          {...register("value")}
         />
+        {errors.value && (
+          <p className="text-sm text-destructive">{errors.value.message}</p>
+        )}
       </div>
 
       {/* Previsão de fechamento */}
