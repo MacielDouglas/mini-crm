@@ -36,7 +36,8 @@ interface Interaction {
   type: string;
   title: string;
   content: string | null;
-  occurredAt: Date;
+  occurredAt: string;
+  createdAt: string;
   user: { name: string; image: string | null };
 }
 
@@ -132,7 +133,7 @@ export function LeadInteractions({
                       )?.label ?? interaction.type}
                     </span>
                     <time className="text-xs text-muted-foreground ml-auto">
-                      {formatDistanceToNow(interaction.occurredAt, {
+                      {formatDistanceToNow(new Date(interaction.occurredAt), {
                         addSuffix: true,
                         locale: ptBR,
                       })}

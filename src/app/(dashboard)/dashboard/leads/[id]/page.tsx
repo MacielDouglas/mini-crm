@@ -1,113 +1,168 @@
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { headers } from "next/headers";
-import { Button } from "@/shared/components/ui/button";
 import { auth } from "@/shared/lib/auth";
 import { prisma } from "@/shared/lib/prisma";
-import { getLead } from "@/features/leads/actions/get-lead";
 import { LeadDetailCard } from "@/features/leads/components/lead-detail-card";
-import { LeadEditDialog } from "@/features/leads/components/lead-edit-dialog";
 import { LeadInteractions } from "@/features/leads/components/lead-interactions";
-import { DeleteLeadDialog } from "@/features/leads/components/delete-lead-dialog";
-import { ConvertLeadDialog } from "@/features/customers/components/customer-form-dialog";
+import { ScoreLeadButton } from "@/features/ai/components/score-lead-button";
+import { Button } from "../../../../../shared/components/ui/button";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { LeadEditDialog } from "../../../../../features/leads/components/lead-edit-dialog";
 
 interface LeadPageProps {
   params: Promise<{ id: string }>;
 }
 
 export default async function LeadPage({ params }: LeadPageProps) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/login");
 
   const { id } = await params;
 
   const member = await prisma.organizationMember.findFirst({
     where: { userId: session.user.id },
-    include: { organization: true },
   });
   if (!member) redirect("/onboarding");
 
   const [lead, stages] = await Promise.all([
-    getLead(id),
+    prisma.lead.findUnique({
+      where: { id },
+      include: {
+        stage: { select: { name: true, color: true } },
+        assignedTo: { select: { name: true, image: true } },
+        interactions: {
+          orderBy: { occurredAt: "desc" },
+          include: { user: { select: { name: true, image: true } } },
+        },
+        tags: { include: { tag: true } },
+      },
+    }),
     prisma.pipelineStage.findMany({
-      where: { organizationId: member.organization.id },
+      where: { organizationId: member.organizationId },
       orderBy: { position: "asc" },
       select: { id: true, name: true },
     }),
   ]);
 
   if (!lead) notFound();
-  const typedLead = lead!;
 
-  const defaultValues = {
-    name: lead.name,
-    email: lead.email ?? undefined,
-    phone: lead.phone ?? undefined,
-    company: lead.company ?? undefined,
-    jobTitle: lead.jobTitle ?? undefined,
-    website: lead.website ?? undefined,
-    source: lead.source as never,
-    stageId: lead.stageId,
-    value: lead.value !== null ? String(lead.value) : undefined,
-    notes: lead.notes ?? undefined,
-    expectedCloseAt: lead.expectedCloseAt
-      ? lead.expectedCloseAt.toISOString().split("T")[0]
-      : undefined,
+  const serializedLead = {
+    ...lead,
+    value: lead.value ? Number(lead.value) : null,
+    createdAt: lead.createdAt.toISOString(),
+    updatedAt: lead.updatedAt.toISOString(),
+    expectedCloseAt: lead.expectedCloseAt?.toISOString() ?? null,
+    closedAt: lead.closedAt?.toISOString() ?? null,
+    lastContactAt: lead.lastContactAt?.toISOString() ?? null,
+    aiScoredAt: lead.aiScoredAt?.toISOString() ?? null,
+    interactions: lead.interactions.map((i) => ({
+      ...i,
+      occurredAt: i.occurredAt.toISOString(),
+      createdAt: i.createdAt.toISOString(),
+    })),
   };
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between gap-4">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/dashboard/leads">
-            <ArrowLeft className="mr-2 size-4" aria-hidden />
-            Voltar para leads
-          </Link>
-        </Button>
-
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3 min-w-0">
+          <Button variant="ghost" size="icon" asChild className="shrink-0">
+            <Link href="/dashboard/leads">
+              <ArrowLeft className="size-4" />
+            </Link>
+          </Button>
+          <h1 className="text-lg font-semibold truncate">{lead.name}</h1>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <ScoreLeadButton leadId={lead.id} currentScore={lead.aiScore} />
           <LeadEditDialog
             leadId={lead.id}
-            organizationId={member.organization.id}
+            organizationId={member.organizationId}
             stages={stages}
-            defaultValues={defaultValues}
-          />
-          <ConvertLeadDialog
-            organizationId={member.organization.id}
-            lead={{
-              id: typedLead.id,
-              name: typedLead.name,
-              email: typedLead.email,
-              phone: typedLead.phone,
-              company: typedLead.company,
+            defaultValues={{
+              name: lead.name,
+              email: lead.email ?? "",
+              phone: lead.phone ?? "",
+              company: lead.company ?? "",
+              jobTitle: lead.jobTitle ?? "",
+              website: lead.website ?? "",
+              stageId: lead.stageId,
+              source: lead.source,
+              value: lead.value ? String(Number(lead.value)) : "",
+              notes: lead.notes ?? "",
+              expectedCloseAt:
+                lead.expectedCloseAt?.toISOString().split("T")[0] ?? "",
             }}
-          />
-          <DeleteLeadDialog
-            leadId={lead.id}
-            leadName={lead.name}
-            organizationId={member.organization.id}
           />
         </div>
       </div>
 
-      {/* Conteúdo */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Detalhes — ocupa 2 colunas */}
+        {/* Coluna principal */}
         <div className="lg:col-span-2 space-y-6">
-          <LeadDetailCard lead={typedLead} />
-        </div>
-
-        {/* Interações — lateral */}
-        <div className="lg:col-span-1">
+          <LeadDetailCard lead={serializedLead} />
           <LeadInteractions
-            leadId={typedLead.id}
-            interactions={typedLead.interactions}
+            leadId={lead.id}
+            interactions={serializedLead.interactions}
           />
         </div>
+
+        {/* Sidebar IA */}
+        {(lead.aiScore !== null || lead.aiScoreReason) && (
+          <div className="space-y-4">
+            <div className="rounded-xl border bg-card p-4 space-y-3">
+              <h3 className="text-sm font-semibold flex items-center gap-2">
+                ✨ Análise de IA
+              </h3>
+
+              {lead.aiScore !== null && (
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">Score</p>
+                  <p
+                    className={`text-3xl font-bold tabular-nums ${
+                      lead.aiScore >= 70
+                        ? "text-green-600"
+                        : lead.aiScore >= 40
+                          ? "text-yellow-600"
+                          : "text-red-600"
+                    }`}
+                  >
+                    {lead.aiScore}
+                    <span className="text-base font-normal text-muted-foreground">
+                      /100
+                    </span>
+                  </p>
+                </div>
+              )}
+
+              {lead.aiScoreReason && (
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">Análise</p>
+                  <p className="text-sm">{lead.aiScoreReason}</p>
+                </div>
+              )}
+
+              {lead.aiNextAction && (
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Próxima ação
+                  </p>
+                  <p className="text-sm font-medium">{lead.aiNextAction}</p>
+                </div>
+              )}
+
+              {lead.aiScoredAt && (
+                <p className="text-xs text-muted-foreground">
+                  Analisado em{" "}
+                  {new Date(lead.aiScoredAt).toLocaleDateString("pt-BR")}
+                </p>
+              )}
+
+              <ScoreLeadButton leadId={lead.id} currentScore={lead.aiScore} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

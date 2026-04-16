@@ -22,9 +22,9 @@ interface LeadDetailCardProps {
     source: string;
     value: unknown;
     notes: string | null;
-    expectedCloseAt: Date | null;
+    expectedCloseAt: string | null;
     aiScore: number | null;
-    createdAt: Date;
+    createdAt: string;
     stage: { name: string; color: string };
     assignedTo: { name: string } | null;
   };
@@ -148,7 +148,9 @@ export function LeadDetailCard({ lead }: LeadDetailCardProps) {
                   className="size-3.5 text-muted-foreground"
                   aria-hidden
                 />
-                {format(lead.expectedCloseAt, "dd/MM/yyyy", { locale: ptBR })}
+                {format(new Date(lead.expectedCloseAt), "dd/MM/yyyy", {
+                  locale: ptBR,
+                })}
               </div>
             </div>
           )}
@@ -186,7 +188,9 @@ export function LeadDetailCard({ lead }: LeadDetailCardProps) {
         <Separator />
         <p className="text-xs text-muted-foreground">
           Criado em{" "}
-          {format(lead.createdAt, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+          {format(new Date(lead.createdAt), "dd 'de' MMMM 'de' yyyy", {
+            locale: ptBR,
+          })}
         </p>
       </CardContent>
     </Card>
