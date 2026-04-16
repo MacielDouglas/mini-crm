@@ -338,3 +338,5 @@ model AiUsageLog {
   @@index([organizationId, createdAt])
   @@map("ai_usage_logs")
 }
+
+// Seed config (no package.json)
