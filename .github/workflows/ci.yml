@@ -96,6 +96,8 @@ jobs:
 
       - name: Run migrations
         run: bunx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
 
       - name: Seed test user
         run: bun run db:seed
@@ -107,6 +109,9 @@ jobs:
 
       - name: Build app
         run: bun run build
+        env:
+          SKIP_ENV_VALIDATION: true
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
 
       - name: Run E2E tests
         run: bunx playwright test
@@ -120,12 +125,12 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      - name: Comment test results on PR # ← novo step
+      - name: Comment test results on PR
         uses: daun/playwright-report-summary@v3
         if: always()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          report-file: test-results/report.json
+          report-file: playwright-report/report.json
           job-summary: true # aparece também no resumo do workflow
           icon-style: emojis
           comment-title: "🎭 E2E Test Results"
