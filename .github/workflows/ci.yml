@@ -95,9 +95,9 @@ jobs:
         run: bunx prisma generate
 
       - name: Run migrations
-        run: bunx prisma migrate deploy
+        run: bunx prisma db push --accept-data-loss
         env:
-          DATABASE_URL: ${{ env.DATABASE_URL }}
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/minicrm_test
 
       - name: Seed test user
         run: bun run db:seed
