@@ -1,125 +1,132 @@
-# Nexus CRM
-
 <p align="center">
-  <strong>CRM moderno para gestão de leads, pipeline comercial e produtividade de vendas.</strong>
-  <br />
-  Construído com foco em arquitetura escalável, experiência de produto e qualidade de engenharia.
+  <a href="./README.en.md">English version</a>
 </p>
 
 <p align="center">
-  <a href="https://mini-crm-sigma-one.vercel.app/">Demo</a>
-  ·
-  <a href="#visão-geral">Visão geral</a>
-  ·
-  <a href="#stack">Stack</a>
-  ·
-  <a href="#arquitetura">Arquitetura</a>
-  ·
-  <a href="#setup-local">Setup local</a>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,50:111827,100:0f766e&height=220&section=header&text=Nexus%20CRM&fontSize=48&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Modern%20Sales%20Pipeline%20%7C%20AI-Assisted%20CRM%20%7C%20Full-Stack%20Product&descAlignY=58&descSize=18" alt="Nexus CRM Banner" />
+</p>
+
+<h1 align="center">Nexus CRM</h1>
+
+<p align="center">
+  CRM moderno para gestão de leads, pipeline comercial e acompanhamento de clientes,
+  com foco em <strong>produto real</strong>, <strong>arquitetura escalável</strong> e <strong>qualidade de engenharia</strong>.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js" alt="Next.js 16" />
-  <img src="https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react" alt="React 19" />
-  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript 5" />
+  <a href="https://mini-crm-sigma-one.vercel.app/"><strong>Live Demo</strong></a>
+  ·
+  <a href="#visão-geral"><strong>Visão geral</strong></a>
+  ·
+  <a href="#features"><strong>Features</strong></a>
+  ·
+  <a href="#arquitetura"><strong>Arquitetura</strong></a>
+  ·
+  <a href="#setup-local"><strong>Setup</strong></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Bun-Runtime-F9F1E1?style=for-the-badge&logo=bun&logoColor=black" alt="Bun" />
-  <img src="https://img.shields.io/badge/PostgreSQL-Neon-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL / Neon" />
-  <img src="https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma" alt="Prisma ORM" />
-  <img src="https://img.shields.io/badge/Auth-Better--Auth-111827?style=for-the-badge" alt="Better Auth" />
-  <img src="https://img.shields.io/badge/Tailwind-v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v4" />
+  <img src="https://img.shields.io/badge/PostgreSQL-Neon-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma" alt="Prisma" />
+  <img src="https://img.shields.io/badge/Better%20Auth-Auth-111827?style=for-the-badge" alt="Better Auth" />
+  <img src="https://img.shields.io/badge/Tailwind-v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/Playwright-E2E-2EAD33?style=for-the-badge&logo=playwright&logoColor=white" alt="Playwright" />
   <img src="https://img.shields.io/badge/Vitest-Testing-6E9F18?style=for-the-badge&logo=vitest&logoColor=white" alt="Vitest" />
+  <img src="https://img.shields.io/badge/Status-Portfolio%20Project-0f172a?style=for-the-badge" alt="Portfolio Project" />
 </p>
 
 ---
 
 ## Visão geral
 
-O **Nexus CRM** é um sistema de gestão de clientes focado em **pipeline de vendas**, **acompanhamento de leads** e **eficiência operacional comercial**. O projeto foi concebido para simular um cenário real de produto, com autenticação, multi-tenancy, dashboard analítico, board Kanban e recursos assistidos por IA.
+O **Nexus CRM** é um sistema de gestão comercial projetado para organizar leads, acompanhar interações e dar visibilidade real ao funil de vendas. O projeto foi desenvolvido como um **produto full-stack de verdade**, e não apenas como uma vitrine visual.
 
-Mais do que um CRUD, este projeto demonstra a construção de um produto full-stack com preocupações reais de engenharia:
+Ele combina:
 
-- organização por domínio
-- autenticação persistida em banco
-- isolamento de dados por organização
-- modelagem relacional consistente
-- UX responsiva e orientada ao fluxo de trabalho
-- base preparada para escala e evolução de features
+- gestão de leads com pipeline Kanban
+- timeline de interações por cliente
+- autenticação multi-usuário
+- dashboard com KPIs comerciais
+- busca full-text em PostgreSQL
+- recursos assistidos por IA com Groq
+- base preparada para upload de assets com Cloudflare R2
 
-**Demo em produção:**  
+**Live demo:**  
 👉 https://mini-crm-sigma-one.vercel.app/
 
 ---
 
-## Proposta do produto
+## Preview
 
-O projeto resolve um problema comum em times de vendas: manter visibilidade sobre oportunidades, registrar o histórico de relacionamento com cada lead e tomar decisões com base em contexto — não apenas em feeling.
+### Landing Page
 
-O **Nexus CRM** concentra esse fluxo em uma única aplicação:
+![Landing Page](./docs/landing-page.png)
 
-- captura e organização de leads
-- avanço visual no funil comercial
-- timeline de interações
-- busca rápida por contexto
-- visão consolidada por dashboard
-- assistência de IA para priorização
+### Dashboard
 
----
+![Dashboard](./docs/dashboard.png)
 
-## Principais funcionalidades
+### Pipeline
 
-### Gestão comercial
+![Pipeline](./docs/pipeline.png)
 
-- Cadastro de leads
-- Pipeline de vendas em **Kanban por etapa**
-- Movimentação de leads com **drag and drop**
-- Controle de status comercial
-- Conversão de lead em cliente
-- Visualização do valor total em aberto no pipeline
+### Leads
 
-### Contexto e relacionamento
-
-- Perfil detalhado de lead
-- Timeline de interações por cliente
-- Registro de notas, calls, reuniões, tarefas e mudanças de estágio
-- Organização por tags
-
-### Inteligência e análise
-
-- **Lead scoring com IA via Groq**
-- Sugestão de próxima ação
-- Dashboard com KPIs de vendas
-- Conversão por etapa
-- Ticket médio
-- Leads por estágio
-- Busca full-text com PostgreSQL
-- Exportação de relatórios em CSV
-
-### Plataforma
-
-- Login e registro por e-mail/senha
-- Estrutura multi-usuário
-- Isolamento por organização
-- Dark mode / Light mode
-- Responsivo de **375px até 4K**
-- Integração com **Cloudflare R2** preparada
+![Leads](./docs/leads.png)
 
 ---
 
-## Diferenciais técnicos
+## Why this project matters
 
-O objetivo deste projeto não foi apenas “fazer funcionar”, mas construir com base em decisões que fazem sentido em ambientes profissionais.
+Em um contexto de portfólio sênior, o valor deste projeto não está apenas nas features, mas em **como elas foram estruturadas e entregues**.
 
-### O que este repositório demonstra
+O **Nexus CRM** demonstra a capacidade de:
 
-- arquitetura orientada por domínio
-- separação entre regras de negócio, UI e infraestrutura
-- uso moderno do App Router no Next.js
-- autenticação integrada ao banco com Better Auth
-- modelagem multi-tenant com Prisma
-- uso de IA como feature de produto, não como adorno
-- preocupação com legibilidade, manutenção e escalabilidade
-- estratégia de testes cobrindo fluxos críticos
+- transformar regras de negócio em um produto utilizável
+- modelar domínio de forma relacional e escalável
+- construir uma arquitetura coerente entre frontend, backend e persistência
+- integrar autenticação, analytics, drag-and-drop e IA em uma mesma aplicação
+- equilibrar experiência do usuário com clareza técnica
+- entregar software com mentalidade de produto, não apenas de feature isolada
+
+---
+
+## Features
+
+| Categoria    | Feature                        | Status |
+| ------------ | ------------------------------ | ------ |
+| Auth         | Login com e-mail e senha       | ✅     |
+| Auth         | Registro de usuário            | ✅     |
+| Auth         | Sessão persistida em banco     | ✅     |
+| Multi-tenant | Organização por tenant         | ✅     |
+| Multi-tenant | Controle de acesso por membro  | ✅     |
+| CRM          | Cadastro de leads              | ✅     |
+| CRM          | Pipeline Kanban por etapa      | ✅     |
+| CRM          | Drag and drop entre colunas    | ✅     |
+| CRM          | Perfil detalhado do lead       | ✅     |
+| CRM          | Timeline de interações         | ✅     |
+| CRM          | Tags por lead                  | ✅     |
+| Analytics    | Dashboard com KPIs             | ✅     |
+| Analytics    | Conversão por etapa            | ✅     |
+| Analytics    | Ticket médio / pipeline value  | ✅     |
+| Search       | Full-text search no PostgreSQL | ✅     |
+| Export       | Exportação CSV                 | ✅     |
+| IA           | Lead scoring com Groq          | ✅     |
+| IA           | Sugestão de próxima ação       | ✅     |
+| UX           | Dark mode / Light mode         | ✅     |
+| UX           | Responsivo 375px → 4K          | ✅     |
+| Infra        | Cloudflare R2 preparado        | 🟡     |
+| Export       | Exportação PDF                 | 🟡     |
+| Colaboração  | Convite de membros             | 🟡     |
+
+**Legenda:**
+
+- ✅ Implementado
+- 🟡 Planejado / em evolução
 
 ---
 
@@ -127,192 +134,126 @@ O objetivo deste projeto não foi apenas “fazer funcionar”, mas construir co
 
 ### Frontend
 
-- **Next.js 16**
-- **React 19**
-- **TypeScript**
-- **Tailwind CSS v4**
-- **shadcn/ui**
-- **Motion**
-- **Recharts**
-- **dnd-kit**
-- **TanStack Query**
-- **Zustand**
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- shadcn/ui
+- Motion
+- Recharts
+- dnd-kit
+- TanStack Query
+- Zustand
 
 ### Backend e dados
 
-- **Next.js App Router**
-- **Server Components**
-- **Server Actions**
-- **Prisma ORM**
-- **PostgreSQL**
-- **Neon** em produção
-- **Better Auth**
-- **Zod**
-- **Groq SDK**
+- Next.js App Router
+- Server Components
+- Server Actions
+- Prisma ORM
+- PostgreSQL
+- Neon
+- Better Auth
+- Zod
+- Groq SDK
 
-### Testes e qualidade
+### Qualidade
 
-- **Vitest**
-- **Playwright**
-- **ESLint**
-- **TypeScript typecheck**
+- Vitest
+- Playwright
+- ESLint
+- TypeScript typecheck
 
-### Runtime e DX
+### Runtime
 
-- **Bun**
-- **Turbopack**
+- Bun
+- Turbopack
 
 ---
 
 ## Arquitetura
 
-O projeto segue uma organização **feature-based**, favorecendo coesão por domínio e facilitando evolução incremental.
-
 ```text
 src/
-├── app/                     # Rotas, layouts e páginas
-├── features/                # Módulos por domínio
+├── app/
+│   ├── (auth)/
+│   ├── (dashboard)/
+│   └── ...
+├── features/
 │   ├── auth/
 │   ├── dashboard/
 │   ├── leads/
 │   ├── pipeline/
 │   └── marketing/
-├── shared/                  # Infra compartilhada, libs, ui, utils
-├── generated/               # Client Prisma gerado
+├── shared/
+│   ├── components/
+│   ├── lib/
+│   ├── ui/
+│   └── utils/
+├── generated/
+│   └── prisma/
 └── ...
 prisma/
 ├── schema.prisma
 └── seed.ts
 ```
 
-### Direção arquitetural
-
-- **App Router** para separação entre áreas públicas e autenticadas
-- **Feature folders** para modularidade real de domínio
-- **Shared layer** para componentes, libs e infraestrutura reutilizável
-- **Prisma** como camada de persistência
-- **Better Auth** acoplado ao schema relacional
-- **Multi-tenancy por organizationId**
-- **Fluxos protegidos no servidor**, evitando depender apenas do client
-
----
-
-## Diagrama de arquitetura
+### Arquitetura visual
 
 ```mermaid
-graph TD
-    A[Landing / Login] --> B[Next.js App Router]
-    B --> C[Server Components]
-    B --> D[Client Components]
-    C --> E[Better Auth]
-    C --> F[Server Actions / Data Fetching]
-    F --> G[Prisma ORM]
-    G --> H[(PostgreSQL / Neon)]
-    F --> I[Groq SDK]
-    F --> J[Cloudflare R2 - preparado]
+flowchart LR
+    U[Usuário] --> N[Next.js App Router]
+    N --> P[Páginas públicas]
+    N --> A[Áreas autenticadas]
 
-    D --> K[Kanban com dnd-kit]
-    D --> L[Charts com Recharts]
-    D --> M[Theme / UI State]
+    A --> S[Server Components]
+    A --> C[Client Components]
 
-    E --> H
+    S --> BA[Better Auth]
+    S --> SA[Server Actions / Queries]
+    SA --> PR[Prisma ORM]
+    PR --> DB[(PostgreSQL / Neon)]
+
+    SA --> GQ[Groq SDK]
+    SA --> R2[Cloudflare R2 - preparado]
+
+    C --> DD[dnd-kit Kanban]
+    C --> RC[Recharts]
+    C --> TH[Theme / UI State]
 ```
 
 ---
 
 ## Modelagem de domínio
 
-A modelagem foi estruturada para refletir um CRM real, com separação clara entre autenticação, organização e operação comercial.
+Principais entidades do sistema:
 
-### Núcleo do domínio
+- User
+- Session
+- Account
+- Verification
+- Organization
+- OrganizationMember
+- PipelineStage
+- Lead
+- Customer
+- Interaction
+- Tag
+- LeadTag
+- AiUsageLog
 
-- **User**
-- **Session**
-- **Account**
-- **Verification**
-- **Organization**
-- **OrganizationMember**
-- **PipelineStage**
-- **Lead**
-- **Customer**
-- **Interaction**
-- **Tag**
-- **LeadTag**
-- **AiUsageLog**
+### O que a modelagem evidencia
 
-### Destaques do schema
-
-- suporte nativo a **multi-tenant**
-- papéis de acesso por organização
-- trilha de interações por lead e cliente
-- estágios de pipeline configuráveis
-- score e próxima ação armazenados no domínio
-- log de uso de IA para auditoria e observabilidade futura
-- índices pensados para consultas frequentes
-
-### Regras importantes do domínio
-
-- um usuário pode participar de uma ou mais organizações
-- cada organização possui seu próprio pipeline
-- leads pertencem a uma organização
-- interações criam o histórico vivo do relacionamento
-- um lead pode ser convertido em customer
-- ações de IA deixam rastro no domínio
-
----
-
-## Fluxos principais do sistema
-
-### Autenticação
-
-O usuário faz login ou registro com e-mail e senha. A sessão é validada no servidor, e o acesso às áreas protegidas depende do vínculo com uma organização.
-
-### Dashboard
-
-Após autenticado, o usuário acessa uma visão consolidada do negócio com indicadores como:
-
-- total de leads
-- oportunidades ganhas
-- taxa de conversão
-- valor em aberto no pipeline
-- leads recentes
-- distribuição por etapa
-
-### Pipeline
-
-O pipeline apresenta o funil em formato Kanban, com movimentação visual entre estágios e visão rápida de valor, score e responsável.
-
-### Lead Intelligence
-
-A integração com **Groq** adiciona inteligência ao fluxo comercial:
-
-- score automático do lead
-- recomendação de próxima ação
-- base para análises futuras do pipeline
-
----
-
-## Qualidade de engenharia
-
-Este projeto foi desenhado para representar um nível profissional de execução — não apenas na UI, mas principalmente nas decisões por trás dela.
-
-### Práticas adotadas
-
-- organização de código por domínio
-- autenticação no servidor
-- tipagem forte com TypeScript
-- validação com Zod
-- modelagem relacional com Prisma
-- serialização explícita de valores do banco
-- foco em componentes reutilizáveis
-- responsividade real, não apenas adaptativa
-- base preparada para testes e evolução
+- isolamento por organização
+- papéis por membro
+- pipeline configurável
+- histórico de interações como parte central do produto
+- rastreabilidade de uso de IA
+- base pronta para expansão funcional
 
 ---
 
 ## Estratégia de testes
-
-A suíte de testes foi pensada em camadas, cobrindo desde lógica isolada até fluxos críticos do usuário.
 
 ```text
 E2E (Playwright)         ← Fluxos críticos: login, criar lead, mover funil
@@ -320,7 +261,7 @@ Integração (Vitest)      ← API Routes, Prisma queries, IA service
 Unitários                ← Utils, formatters, scoring e validações
 ```
 
-### Comandos de teste
+### Comandos
 
 ```bash
 bun run test
@@ -337,26 +278,27 @@ bun run test:e2e:headed
 
 ### Pré-requisitos
 
-- **Bun**
-- **PostgreSQL** local ou remoto
-- arquivo `.env` configurado
+- Bun
+- PostgreSQL
+- arquivo `.env`
 
-### 1. Clone o repositório
-
-```bash
-git clone <repo-url>
-cd mini-crm
-```
-
-### 2. Instale as dependências
+### Instalação
 
 ```bash
 bun install
+bun run db:generate
+bun run db:migrate
+bun run db:seed
+bun dev
 ```
 
-### 3. Configure as variáveis de ambiente
+A aplicação estará disponível em:
 
-Crie um arquivo `.env` na raiz do projeto:
+```bash
+http://localhost:3000
+```
+
+### Variáveis de ambiente
 
 ```env
 DATABASE_URL=""
@@ -373,177 +315,85 @@ R2_PUBLIC_URL=""
 R2_APPI_URL=""
 ```
 
-### 4. Gere o client Prisma
+---
 
-```bash
-bun run db:generate
-```
-
-### 5. Execute as migrations
-
-```bash
-bun run db:migrate
-```
-
-### 6. Rode o seed
-
-```bash
-bun run db:seed
-```
-
-### 7. Inicie a aplicação
+## Scripts
 
 ```bash
 bun dev
-```
+bun build
+bun start
+bun typecheck
+bun lint
 
-A aplicação ficará disponível em:
+bun run db:generate
+bun run db:migrate
+bun run db:push
+bun run db:studio
+bun run db:seed
 
-```bash
-http://localhost:3000
-```
-
----
-
-## Scripts disponíveis
-
-```bash
-bun dev                 # Desenvolvimento com Turbopack
-bun build               # Prisma generate + build de produção
-bun start               # Start em produção
-bun typecheck           # Verificação de tipos
-bun lint                # Lint do projeto
-
-bun run db:generate     # Gera o client Prisma
-bun run db:migrate      # Executa migrations
-bun run db:push         # Sincroniza o schema com o banco
-bun run db:studio       # Abre o Prisma Studio
-bun run db:seed         # Popula o banco
-
-bun run test            # Testes automatizados
-bun run test:watch      # Testes em watch mode
-bun run test:coverage   # Cobertura de testes
-bun run test:e2e        # Testes end-to-end
-bun run test:e2e:ui     # E2E com interface gráfica
-bun run test:e2e:headed # E2E com navegador visível
+bun run test
+bun run test:watch
+bun run test:coverage
+bun run test:e2e
+bun run test:e2e:ui
+bun run test:e2e:headed
 ```
 
 ---
 
 ## Infraestrutura
 
-### Banco de dados
-
-- **PostgreSQL** como banco principal
-- **Neon** em produção
-- schema modelado com **Prisma**
-
-### Storage
-
-- estrutura preparada para **Cloudflare R2**
-- variáveis de ambiente previstas para integração com assets
-
-### Deploy
-
-- aplicação hospedada em **Vercel**
-- demo pública disponível em:  
-  https://mini-crm-sigma-one.vercel.app/
-
----
-
-## Telas principais
-
-O produto foi desenhado em torno de quatro áreas principais:
-
-- **Landing Page**
-- **Dashboard**
-- **Pipeline**
-- **Leads**
-
-> Sugestão: adicionar screenshots ou GIFs logo abaixo desta seção aumenta muito o impacto do repositório no GitHub, especialmente para recrutadores [web:57][web:60].
-
-### Exemplo de seção para screenshots
-
-```md
-## Preview
-
-### Landing Page
-
-### Dashboard
-
-### Pipeline
-
-### Leads
-```
-
----
-
-## Trade-offs e decisões
-
-Toda aplicação real envolve escolhas. Algumas decisões deste projeto foram intencionais:
-
-- **Bun** foi adotado para priorizar DX e velocidade no ambiente de desenvolvimento
-- **Prisma** foi escolhido pela produtividade, legibilidade do schema e segurança na camada de dados
-- **Better Auth** oferece uma base moderna para autenticação integrada ao banco
-- **Next.js App Router** foi usado para alinhar o projeto com o ecossistema atual do React
-- **Cloudflare R2** foi deixado preparado para expansão da camada de arquivos sem aumentar a complexidade inicial
-
-Esse conjunto de decisões busca equilibrar:
-
-- velocidade de desenvolvimento
-- clareza arquitetural
-- escalabilidade razoável
-- boa experiência de manutenção
+| Camada      | Tecnologia                |
+| ----------- | ------------------------- |
+| Frontend    | Next.js 16 + React 19     |
+| Runtime     | Bun                       |
+| Banco       | PostgreSQL                |
+| Produção DB | Neon                      |
+| ORM         | Prisma                    |
+| Auth        | Better Auth               |
+| IA          | Groq                      |
+| Storage     | Cloudflare R2 (preparado) |
+| Deploy      | Vercel                    |
 
 ---
 
 ## Roadmap
 
-Próximas evoluções possíveis do projeto:
-
-- exportação em PDF
-- anexos por lead
-- filtros salvos
-- auditoria de mudanças no pipeline
-- permissões mais granulares por papel
-- integração com e-mail
-- integração com calendário
-- dashboards comparativos por período
-- insights mais avançados de IA
+- [ ] Exportação em PDF
+- [ ] Upload de arquivos por lead
+- [ ] Convite de membros
+- [ ] Permissões mais granulares
+- [ ] Integração com calendário
+- [ ] Integração com e-mail
+- [ ] Dashboards comparativos por período
+- [ ] Insights de IA mais avançados
 
 ---
 
-## Valor para recrutadores
+## Portfólio sênior
 
-Este projeto foi construído para evidenciar competências importantes em times modernos de produto e engenharia:
+Este projeto foi construído para demonstrar:
 
-- capacidade de transformar regra de negócio em software funcional
-- domínio de stack full-stack moderna
-- pensamento arquitetural
-- sensibilidade de produto
-- organização de código para escala
-- preocupação com testes, DX e experiência final
+- visão de produto
+- execução full-stack
+- modelagem de domínio
+- autenticação real
+- interface orientada a workflow
+- integração com IA
+- preocupação com manutenibilidade
 
-Em termos práticos, o **Nexus CRM** demonstra um perfil capaz de:
-
-- projetar e modelar domínio
-- estruturar backend e frontend de forma coesa
-- integrar autenticação, banco, visualização de dados e IA
-- entregar uma aplicação com cara de produto real
+Em um contexto de recrutamento, o **Nexus CRM** evidencia capacidade de transformar problema de negócio em software utilizável, com uma base técnica sólida e pronta para evoluir.
 
 ---
 
 ## Autor
 
 **Douglas Maciel**  
-Senior Full Stack Developer / Software Engineer
+Full Stack Developer / Software Engineer
 
-Se este projeto chamou sua atenção, ele representa bem a interseção entre:
-
-- engenharia de software
-- produto
-- arquitetura moderna
-- experiência de usuário
+Se este projeto chamou sua atenção, ele representa bem minha forma de construir software:  
+**produto + arquitetura + execução.**
 
 ---
 

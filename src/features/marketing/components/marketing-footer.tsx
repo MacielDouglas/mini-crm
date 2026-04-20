@@ -1,7 +1,7 @@
 export function MarketingFooter() {
   return (
     <footer className="border-t border-border px-6 py-8">
-      <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-6 flex-wrap">
+      <div className="max-w-300 mx-auto flex items-center justify-between gap-6 flex-wrap">
         <div className="flex items-center gap-2 font-bold text-sm text-foreground">
           <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
             <rect width="28" height="28" rx="7" className="fill-primary" />
