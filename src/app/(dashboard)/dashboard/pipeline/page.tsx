@@ -50,6 +50,12 @@ export default async function PipelinePage() {
     return acc + (l.value ? Number(l.value) : 0);
   }, 0);
 
+  const serializedLeads = leads.map((lead) => ({
+    ...lead,
+    value: lead.value ? Number(lead.value) : null,
+    // converta outros campos Decimal aqui se houver
+  }));
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
@@ -70,7 +76,11 @@ export default async function PipelinePage() {
         </div>
       </div>
 
-      <PipelineBoard stages={stages} initialLeads={leads} stageMap={stageMap} />
+      <PipelineBoard
+        stages={stages}
+        initialLeads={serializedLeads}
+        stageMap={stageMap}
+      />
     </div>
   );
 }

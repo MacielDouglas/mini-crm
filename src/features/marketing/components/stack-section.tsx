@@ -8,6 +8,8 @@ import {
   TailwindIcon,
   ShadcnIcon,
   GroqIcon,
+  GithubActionsIcon,
+  PostgresqlIcon,
 } from "@/shared/components/icons";
 import type { SVGProps } from "react";
 
@@ -21,12 +23,18 @@ const stack: StackItem[] = [
   { name: "Next.js 15", icon: <NextIcon width={16} height={16} /> },
   { name: "TypeScript", icon: <TypescriptIcon width={16} height={16} /> },
   { name: "Prisma ORM", icon: <PrismaIcon width={16} height={16} /> },
+  { name: "PostgresSQL", icon: <PostgresqlIcon width={16} height={16} /> },
+  // { name: "Prisma ORM", icon: <PrismaIcon width={16} height={16} /> },
   { name: "Bun", icon: <BunIcon width={16} height={16} /> },
-  { name: "Neon", icon: <NeonIcon width={16} height={16} /> },
+  { name: "Neon DB", icon: <NeonIcon width={16} height={16} /> },
   { name: "Vercel", icon: <VercelIcon width={16} height={16} /> },
-  { name: "Tailwind", icon: <TailwindIcon width={16} height={16} /> },
+  { name: "Tailwind CSS", icon: <TailwindIcon width={16} height={16} /> },
   { name: "Shadcn/ui", icon: <ShadcnIcon width={16} height={16} /> },
-  { name: "Groq", icon: <GroqIcon width={16} height={16} /> },
+  { name: "Groq AI", icon: <GroqIcon width={16} height={16} /> },
+  {
+    name: "Github Actions",
+    icon: <GithubActionsIcon width={16} height={16} />,
+  },
 ];
 
 // Ícones ainda sem SVG local — usar img temporariamente

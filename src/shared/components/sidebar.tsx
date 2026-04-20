@@ -36,15 +36,21 @@ export function Sidebar() {
     >
       {/* Logo */}
       <div className="h-16 flex items-center justify-center lg:justify-start lg:px-4 border-b shrink-0">
-        <span className="hidden lg:flex items-center gap-2 font-semibold text-lg">
-          <span className="size-7 rounded-md bg-primary flex items-center justify-center text-primary-foreground text-sm font-bold">
-            C
-          </span>
-          Mini CRM
-        </span>
-        <span className="flex lg:hidden size-7 rounded-md bg-primary items-center justify-center text-primary-foreground text-sm font-bold">
-          C
-        </span>
+        <div className="flex items-center gap-2.5 font-bold text-base">
+          <div className="w-8 h-8 rounded-2xl bg-primary flex items-center justify-center shrink-0 shadow-sm shadow-primary/30">
+            <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+              <path
+                d="M8 20V10l6 5 6-5v10"
+                stroke="white"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <circle cx="14" cy="9" r="2" fill="white" />
+            </svg>
+          </div>
+          <p className="hidden lg:block">NexusCRM</p>
+        </div>
       </div>
 
       {/* Nav */}

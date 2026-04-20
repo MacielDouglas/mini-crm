@@ -9,4 +9,4 @@ export { TailwindIcon } from "./tailwind-icon";
 export { TypescriptIcon } from "./typeScript-icon";
 export { VercelIcon } from "./vercel-icon";
 export { GroqIcon } from "./groq_icon";
-// export { GroqIcon } from "./groq-icon";
+export { GithubActionsIcon } from "./githubActions-icon";

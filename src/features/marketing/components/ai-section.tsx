@@ -2,6 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import { ChevronRight } from "lucide-react";
+import { motion } from "motion/react";
+import type { Variants } from "motion/react";
+import { useScrollReveal } from "@/features/marketing/hooks/use-scroll-reveal";
 
 const aiFeatures = [
   {
@@ -22,8 +25,38 @@ const aiFeatures = [
   },
 ];
 
+const sectionVariants: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+
+const childVariants: Variants = {
+  hidden: { opacity: 0, x: -20 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { type: "spring" as const, damping: 28, stiffness: 200 },
+  },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, x: 20, scale: 0.97 },
+  show: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: {
+      type: "spring" as const,
+      damping: 26,
+      stiffness: 160,
+      delay: 0.2,
+    },
+  },
+};
+
 export default function AiSection() {
   const barRef = useRef<HTMLDivElement>(null);
+  const { ref, controls } = useScrollReveal();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -39,25 +72,44 @@ export default function AiSection() {
   }, []);
 
   return (
-    <section id="ai" className="py-[clamp(4rem,8vw,6rem)] px-6 bg-muted/40">
-      <div className="max-w-300 mx-auto grid grid-cols-2 gap-16 items-center max-md:grid-cols-1">
+    <section id="ai" className="py-[clamp(4rem,8vw,6rem)] px-6 bg-muted/30">
+      <motion.div
+        ref={ref}
+        variants={sectionVariants}
+        initial="hidden"
+        animate={controls}
+        className="max-w-300 mx-auto grid grid-cols-2 gap-16 items-center max-md:grid-cols-1"
+      >
         {/* Left */}
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-primary mb-4">
+          <motion.p
+            variants={childVariants}
+            className="text-xs font-bold uppercase tracking-widest text-primary mb-4"
+          >
             Inteligência Artificial
-          </p>
-          <h2 className="font-heading text-[clamp(2rem,1.2rem+2.5vw,3.5rem)] font-normal leading-[1.15] tracking-tight mb-5">
+          </motion.p>
+          <motion.h2
+            variants={childVariants}
+            className="font-heading text-[clamp(2rem,1.2rem+2.5vw,3.5rem)] font-normal leading-[1.15] tracking-tight mb-5"
+          >
             IA que trabalha
             <br />
             enquanto você vende
-          </h2>
-          <p className="text-base text-muted-foreground max-w-[52ch] leading-relaxed mb-8">
+          </motion.h2>
+          <motion.p
+            variants={childVariants}
+            className="text-base text-muted-foreground max-w-[52ch] leading-relaxed mb-8"
+          >
             Alimentado pelo Groq (Llama 3.3 70B) — rápido, gratuito e integrado
             diretamente no fluxo de trabalho.
-          </p>
+          </motion.p>
           <div className="flex flex-col gap-5">
             {aiFeatures.map(({ title, desc }) => (
-              <div key={title} className="flex gap-4 items-start">
+              <motion.div
+                key={title}
+                variants={childVariants}
+                className="flex gap-4 items-start"
+              >
                 <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />
                 <div>
                   <h4 className="text-sm font-bold mb-1">{title}</h4>
@@ -65,18 +117,21 @@ export default function AiSection() {
                     {desc}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
         {/* Right — Score card */}
-        <div className="bg-card border border-border rounded-xl overflow-hidden shadow-lg">
+        <motion.div
+          variants={cardVariants}
+          className="bg-card border border-border rounded-3xl overflow-hidden shadow-xl shadow-primary/8"
+        >
           <div className="px-5 py-4 border-b border-border flex items-center gap-3">
             <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
               Lead Score
             </span>
-            <span className="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full tracking-widest">
+            <span className="bg-primary/15 text-primary text-[10px] font-bold px-2.5 py-0.5 rounded-full tracking-widest">
               GROQ AI
             </span>
           </div>
@@ -94,18 +149,17 @@ export default function AiSection() {
                 </div>
               </div>
             </div>
-            {/* Bar */}
             <div className="bg-muted rounded-full h-2 mb-5 overflow-hidden">
               <div
                 ref={barRef}
                 className="h-full bg-primary rounded-full w-0 transition-[width] duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
               />
             </div>
-            <div className="text-xs text-muted-foreground leading-relaxed bg-muted rounded-lg p-3 mb-4">
+            <div className="text-xs text-muted-foreground leading-relaxed bg-muted rounded-2xl p-3 mb-4">
               Lead com perfil decisor (CTO), empresa de médio porte com budget
               confirmado e 3 interações recentes. Alto engajamento.
             </div>
-            <div className="flex gap-3 items-start bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 rounded-lg p-3">
+            <div className="flex gap-3 items-start bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 rounded-2xl p-3">
               <ChevronRight className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <p className="text-xs text-muted-foreground leading-relaxed">
                 <strong className="text-foreground block mb-0.5">
@@ -116,8 +170,8 @@ export default function AiSection() {
               </p>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

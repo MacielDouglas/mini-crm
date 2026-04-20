@@ -1,3 +1,5 @@
+"use client";
+
 import {
   LayoutGrid,
   PenLine,
@@ -6,6 +8,9 @@ import {
   Download,
   Users,
 } from "lucide-react";
+import { motion } from "motion/react";
+import type { Variants } from "motion/react";
+import { useScrollReveal } from "@/features/marketing/hooks/use-scroll-reveal";
 
 const features = [
   {
@@ -40,7 +45,23 @@ const features = [
   },
 ];
 
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      damping: 26,
+      stiffness: 180,
+      delay: i * 0.07,
+    },
+  }),
+};
+
 export default function FeaturesGrid() {
+  const { ref, controls } = useScrollReveal();
+
   return (
     <section id="features" className="py-[clamp(4rem,8vw,6rem)] px-6">
       <div className="max-w-300 mx-auto">
@@ -57,20 +78,27 @@ export default function FeaturesGrid() {
           interação e sugere o próximo passo certo.
         </p>
 
-        <div className="mt-12 grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-5">
-          {features.map(({ icon: Icon, title, desc }) => (
-            <div
+        <div
+          ref={ref}
+          className="mt-12 grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-5"
+        >
+          {features.map(({ icon: Icon, title, desc }, i) => (
+            <motion.div
               key={title}
-              className="bg-card border border-border rounded-xl p-7 hover:shadow-md hover:border-primary/30 transition-all duration-200"
+              custom={i}
+              variants={cardVariants}
+              initial="hidden"
+              animate={controls}
+              className="bg-card border border-border rounded-3xl p-7 hover:shadow-lg hover:shadow-primary/8 hover:border-primary/30 transition-all duration-300 group"
             >
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-5">
+              <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-5 group-hover:bg-primary/15 transition-colors">
                 <Icon className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold mb-2">{title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {desc}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

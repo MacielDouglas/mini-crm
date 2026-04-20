@@ -9,7 +9,7 @@ import { cn } from "@/shared/utils/utils";
 import { GithubIcon } from "../../../shared/components/icons/github-icon";
 
 export default function Nav() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -28,25 +28,28 @@ export default function Nav() {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 h-16 flex items-center px-6 transition-all duration-300",
-        scrolled && "bg-background/80 backdrop-blur-md border-b border-border",
+        scrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border"
+          : "bg-transparent",
       )}
     >
       <div className="max-w-300 mx-auto w-full flex items-center justify-between gap-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 font-bold text-base">
-          <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center shrink-0">
-            <svg width="14" height="14" viewBox="0 0 28 28" fill="none">
+        <Link href="/" className="flex items-center gap-2 font-bold text-sm">
+          <div className="flex items-center gap-3 text-base font-bold ">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="7" fill="var(--color-primary)" />
               <path
                 d="M8 20V10l6 5 6-5v10"
                 stroke="white"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
               <circle cx="14" cy="9" r="2" fill="white" />
             </svg>
+            NexusCRM
           </div>
-          NexusCRM
         </Link>
 
         {/* Links */}
@@ -59,7 +62,7 @@ export default function Nav() {
             <a
               key={href}
               href={href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
             >
               {label}
             </a>
@@ -68,32 +71,40 @@ export default function Nav() {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
-          {mounted && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              aria-label="Alternar tema"
-              className="w-9 h-9"
-            >
-              {theme === "dark" ? (
-                <Sun className="w-4 h-4" />
-              ) : (
-                <Moon className="w-4 h-4" />
-              )}
-            </Button>
-          )}
-          <Button variant="ghost" size="sm" asChild>
+          <div className="w-9 h-9 flex items-center justify-center">
+            {mounted && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() =>
+                  setTheme(resolvedTheme === "dark" ? "light" : "dark")
+                }
+                aria-label="Alternar tema"
+                className="w-9 h-9 rounded-xl"
+              >
+                {resolvedTheme === "dark" ? (
+                  <Sun className="w-4 h-4" />
+                ) : (
+                  <Moon className="w-4 h-4" />
+                )}
+              </Button>
+            )}
+          </div>
+          <Button variant="ghost" size="sm" className="rounded-xl" asChild>
             <Link href="/login">Entrar</Link>
           </Button>
-          <Button size="sm" asChild>
+          <Button
+            size="sm"
+            className="rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground gap-2 px-4"
+            asChild
+          >
             <a
-              href="https://github.com/seu-usuario/mini-crm"
+              href="https://github.com/MacielDouglas/mini-crm"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <GithubIcon width={16} height={16} />
-              GitHub
+              <GithubIcon width={15} height={15} />
+              Ver no GitHub
             </a>
           </Button>
         </div>
