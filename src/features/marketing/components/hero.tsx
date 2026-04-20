@@ -1,131 +1,76 @@
-"use client";
-
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/shared/components/ui/button";
-import { GithubIcon } from "@/shared/components/icons/github-icon";
-import { motion } from "motion/react";
-import type { Variants } from "motion/react";
-
-const container: Variants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.09, delayChildren: 0.15 },
-  },
-};
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 28, filter: "blur(4px)" },
-  show: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { type: "spring" as const, damping: 26, stiffness: 180 },
-  },
-};
-
 export function Hero() {
   return (
-    <section className="relative pt-[clamp(100px,15vw,160px)] pb-[clamp(4rem,10vw,6rem)] px-6 text-center overflow-hidden">
-      {/* Dot pattern */}
-      <div className="pointer-events-none absolute inset-0 bg-dot-pattern opacity-60" />
-
-      {/* Radial mask sobre o pattern para fade nas bordas */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,transparent_40%,var(--color-background)_100%)]" />
-
-      {/* Glow central */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-[-5%] left-1/2 -translate-x-1/2 w-[min(700px,80vw)] h-[min(500px,50vw)] rounded-full bg-primary/20 blur-[100px]" />
+    <section className="relative pt-[clamp(100px,15vw,160px)] pb-[clamp(64px,10vw,96px)] px-6 text-center overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[clamp(400px,80vw,900px)] h-[clamp(300px,60vw,700px)] rounded-full bg-primary/10 blur-[80px]" />
       </div>
 
-      <motion.div
-        className="relative z-10 max-w-240 mx-auto"
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
-        {/* Badge */}
-        <motion.div variants={item} className="flex justify-center mb-8">
-          <span className="inline-flex items-center gap-2 border border-primary/30 bg-primary/8 backdrop-blur-sm rounded-full px-5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            Projeto Open Source
-          </span>
-        </motion.div>
+      <div className="relative z-10 max-w-240 mx-auto">
+        <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 text-primary text-xs font-semibold px-4 py-1 rounded-full mb-6 uppercase tracking-widest">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+          Projeto Open Source
+        </div>
 
-        {/* Heading */}
-        <motion.h1
-          variants={item}
-          className="font-heading text-[clamp(3rem,1rem+7vw,7.5rem)] font-normal leading-[1.05] tracking-tight text-foreground mb-8"
-        >
-          CRM inteligente para <br className="hidden sm:block" />
-          <span className="italic text-primary">fechar mais negócios</span>
-        </motion.h1>
+        <h1 className="font-display text-[clamp(2.8rem,1rem+6vw,6rem)] font-normal text-foreground leading-[1.1] tracking-[-0.02em] mb-6">
+          CRM inteligente
+          <br />
+          para fechar <em className="italic text-primary">mais negócios</em>
+        </h1>
 
-        {/* Descrição */}
-        <motion.p
-          variants={item}
-          className="text-base text-muted-foreground max-w-[52ch] mx-auto mb-10 leading-relaxed"
-        >
+        <p className="text-[clamp(1.125rem,1rem+0.75vw,1.5rem)] text-muted-foreground max-w-[56ch] mx-auto mb-10 leading-[1.7]">
           Pipeline Kanban, timeline de interações e IA que pontua seus leads
           automaticamente — tudo num sistema moderno, rápido e 100% responsivo.
-        </motion.p>
+        </p>
 
-        {/* CTAs */}
-        <motion.div
-          variants={item}
-          className="flex items-center justify-center gap-3 flex-wrap"
-        >
-          <Button
-            size="lg"
-            className="rounded-2xl gap-2 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 px-6"
-            asChild
+        <div className="flex items-center justify-center gap-4 flex-wrap">
+          <a
+            href="https://github.com/MacielDouglas/mini-crm"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-lg text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
           >
-            <a
-              href="https://github.com/seu-usuario/mini-crm"
-              target="_blank"
-              rel="noopener noreferrer"
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
             >
-              <GithubIcon width={16} height={16} />
-              Ver no GitHub
-            </a>
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="rounded-2xl gap-2 border-border/60 px-6"
-            asChild
-          >
-            <a href="#features">
-              Explorar funcionalidades
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </Button>
-        </motion.div>
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+            </svg>
+            Ver no GitHub
+          </a>
 
-        {/* Stats */}
-        <motion.div
-          variants={item}
-          className="flex items-center justify-center gap-8 mt-16 flex-wrap"
-        >
+          <a
+            href="#features"
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-lg text-base font-semibold border border-border text-muted-foreground hover:border-primary hover:text-primary transition-all"
+          >
+            Explorar funcionalidades
+          </a>
+        </div>
+
+        <div className="flex items-center justify-center gap-8 mt-12 flex-wrap">
           {[
-            ["Next.js 15", "Framework"],
-            ["Groq AI", "Lead Scoring"],
-            ["PostgreSQL", "Full-text Search"],
-            ["100%", "Responsivo"],
-          ].map(([val, label], i, arr) => (
-            <div key={label} className="flex items-center gap-8">
+            { val: "Next.js 16", label: "Framework" },
+            { val: "Groq AI", label: "Lead Scoring" },
+            { val: "PostgreSQL", label: "Full-text Search" },
+            { val: "100%", label: "Responsivo" },
+          ].map((s, i, arr) => (
+            <div key={s.label} className="flex items-center gap-8">
               <div className="text-center">
-                <span className="block text-xl font-bold text-foreground tabular-nums">
-                  {val}
+                <span className="font-display text-[clamp(1.5rem,1.2rem+1.25vw,2.25rem)] font-normal text-foreground block">
+                  {s.val}
                 </span>
-                <span className="text-[11px] text-muted-foreground uppercase tracking-widest">
-                  {label}
+                <span className="text-xs text-muted-foreground uppercase tracking-[0.08em]">
+                  {s.label}
                 </span>
               </div>
               {i < arr.length - 1 && <div className="w-px h-10 bg-border" />}
             </div>
           ))}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

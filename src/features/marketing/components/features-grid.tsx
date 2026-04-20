@@ -1,104 +1,77 @@
-"use client";
-
-import {
-  LayoutGrid,
-  PenLine,
-  Search,
-  BarChart2,
-  Download,
-  Users,
-} from "lucide-react";
-import { motion } from "motion/react";
-import type { Variants } from "motion/react";
-import { useScrollReveal } from "@/features/marketing/hooks/use-scroll-reveal";
-
 const features = [
   {
-    icon: LayoutGrid,
     title: "Pipeline Kanban",
-    desc: "Arraste leads entre etapas do funil. Visualize volume e valor de cada fase em tempo real, sem recarregar a página.",
+    desc: "Arraste leads entre etapas do funil. Visualize o volume e o valor de cada fase em tempo real, sem recarregar a página.",
+    d: "M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z",
   },
   {
-    icon: PenLine,
     title: "Timeline de Interações",
     desc: "Registre notas, reuniões e e-mails. O histórico completo de cada cliente em ordem cronológica, sempre acessível.",
+    d: "M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z",
   },
   {
-    icon: Search,
     title: "Busca Full-Text",
     desc: "Pesquisa avançada com índice PostgreSQL. Encontre qualquer lead por nome, empresa, cargo ou nota em milissegundos.",
+    d: "M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z",
   },
   {
-    icon: BarChart2,
     title: "Dashboard com KPIs",
     desc: "Taxa de conversão por etapa, ticket médio, leads por origem. Métricas que mostram onde o funil está vazando.",
+    d: "M18 20V10M12 20V4M6 20v-6",
   },
   {
-    icon: Download,
     title: "Exportação CSV/PDF",
     desc: "Exporte qualquer lista de leads ou relatório com um clique. Compatível com Excel, Google Sheets e ferramentas de BI.",
+    d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3",
   },
   {
-    icon: Users,
     title: "Multi-usuário",
     desc: "Autenticação completa com convite de membros. Controle de acesso por organização — cada time vê apenas seus dados.",
+    d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75",
   },
 ];
 
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "spring" as const,
-      damping: 26,
-      stiffness: 180,
-      delay: i * 0.07,
-    },
-  }),
-};
-
 export default function FeaturesGrid() {
-  const { ref, controls } = useScrollReveal();
-
   return (
-    <section id="features" className="py-[clamp(4rem,8vw,6rem)] px-6">
+    <section id="features" className="py-[clamp(64px,8vw,96px)] px-6">
       <div className="max-w-300 mx-auto">
         <p className="text-xs font-bold uppercase tracking-widest text-primary mb-4">
           Funcionalidades
         </p>
-        <h2 className="font-heading text-[clamp(2rem,1.2rem+2.5vw,3.5rem)] font-normal leading-[1.15] tracking-tight mb-5">
+        <h2 className="font-display text-[clamp(2rem,1.2rem+2.5vw,3.5rem)] font-normal text-foreground leading-[1.15] tracking-[-0.01em] mb-5">
           Tudo que uma equipe
           <br />
           de vendas precisa
         </h2>
-        <p className="text-base text-muted-foreground max-w-[52ch] leading-relaxed">
+        <p className="text-base text-muted-foreground max-w-[52ch] leading-[1.75]">
           Do primeiro contato ao fechamento — com IA que aprende com cada
           interação e sugere o próximo passo certo.
         </p>
 
-        <div
-          ref={ref}
-          className="mt-12 grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-5"
-        >
-          {features.map(({ icon: Icon, title, desc }, i) => (
-            <motion.div
-              key={title}
-              custom={i}
-              variants={cardVariants}
-              initial="hidden"
-              animate={controls}
-              className="bg-card border border-border rounded-3xl p-7 hover:shadow-lg hover:shadow-primary/8 hover:border-primary/30 transition-all duration-300 group"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="bg-card border border-border rounded-xl p-7 hover:shadow-md hover:border-primary/30 transition-all"
             >
-              <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-5 group-hover:bg-primary/15 transition-colors">
-                <Icon className="w-5 h-5" />
+              <div className="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-md text-primary mb-5">
+                <svg
+                  className="w-4.5 h-4.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d={f.d} />
+                </svg>
               </div>
-              <h3 className="text-base font-bold mb-2">{title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {desc}
+              <h3 className="text-base font-bold text-foreground mb-2">
+                {f.title}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-[1.7]">
+                {f.desc}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

@@ -1,86 +1,71 @@
-"use client";
-
-import { motion } from "motion/react";
-import type { Variants } from "motion/react";
-import { useScrollReveal } from "../hooks/use-scroll-reveal";
-
-const reveal: Variants = {
-  hidden: { opacity: 0, y: 40, scale: 0.97 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: "spring" as const,
-      damping: 28,
-      stiffness: 160,
-      delay: 0.1,
-    },
-  },
-};
-
 export default function Mockup() {
-  const { ref, controls } = useScrollReveal();
+  const kpis = [
+    { val: "48", label: "Leads ativos", delta: "↑ 12% mês" },
+    { val: "R$142k", label: "Valor no funil", delta: "↑ 8% mês" },
+    { val: "34%", label: "Taxa conversão", delta: "↑ 3pp mês" },
+  ];
 
-  const leads = [
+  const sidebarItems = [
     {
-      name: "Ana Beatriz",
-      company: "TechCorp",
-      score: 87,
-      value: "R$45k",
-      color: "text-emerald-600 dark:text-emerald-400",
+      label: "Pipeline",
+      active: true,
+      d: "M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z",
     },
     {
-      name: "Carlos M.",
-      company: "StartupX",
-      score: 61,
-      value: "R$18k",
-      color: "text-amber-500 dark:text-amber-400",
+      label: "Leads",
+      active: false,
+      d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
     },
+    { label: "Dashboard", active: false, d: "M18 20V10M12 20V4M6 20v-6" },
     {
-      name: "Fernanda S.",
-      company: "Grupo Alpha",
-      score: 92,
-      value: "R$80k",
-      color: "text-emerald-600 dark:text-emerald-400",
-    },
-    {
-      name: "Ricardo L.",
-      company: "Beta Ltd.",
-      score: 74,
-      value: "R$32k",
-      color: "text-amber-500 dark:text-amber-400",
+      label: "IA",
+      active: false,
+      d: "M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14",
     },
   ];
-  const cols = ["Prospecção", "Qualificação", "Proposta", "Fechado"];
+
+  const kanban = [
+    {
+      stage: "Prospecção",
+      count: 4,
+      cards: [
+        { name: "Ana Beatriz", co: "TechCorp", score: 87, val: "R$45k" },
+        { name: "Carlos M.", co: "StartupX", score: 61, val: "R$18k" },
+      ],
+    },
+    {
+      stage: "Qualif.",
+      count: 3,
+      cards: [
+        { name: "Fernanda S.", co: "Grupo Alpha", score: 92, val: "R$80k" },
+      ],
+    },
+    {
+      stage: "Proposta",
+      count: 2,
+      cards: [{ name: "Ricardo L.", co: "Beta Ltd.", score: 74, val: "R$32k" }],
+    },
+    {
+      stage: "Fechado",
+      count: 5,
+      cards: [{ name: "Julia P.", co: "InovaS.A.", score: 95, val: "R$65k" }],
+    },
+  ];
 
   return (
-    <motion.div
-      ref={ref}
-      variants={reveal}
-      initial="hidden"
-      animate={controls}
-      className="max-w-300 mx-auto px-6 pb-[clamp(4rem,8vw,6rem)]"
-    >
-      <div className="rounded-3xl border border-border bg-card shadow-2xl shadow-primary/5 overflow-hidden">
-        {/* Window bar */}
+    <div className="max-w-300 mx-auto px-6 pb-[clamp(64px,8vw,96px)]">
+      <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-2xl">
         <div className="h-11 bg-muted border-b border-border flex items-center px-5 gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-400" />
-          <div className="w-3 h-3 rounded-full bg-yellow-400" />
-          <div className="w-3 h-3 rounded-full bg-green-400" />
-          <div className="ml-3 h-5 w-45 rounded-lg bg-background/60 border border-border flex items-center justify-center">
-            <span className="text-[10px] text-muted-foreground">
-              nexuscrm.vercel.app
-            </span>
-          </div>
+          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
 
-        <div className="p-5 grid grid-cols-[200px_1fr] gap-4 min-h-85 max-sm:grid-cols-1">
-          {/* Sidebar */}
-          <div className="bg-muted rounded-2xl p-3 flex flex-col gap-1">
-            <div className="flex items-center gap-2 p-2 mb-2">
-              <div className="w-7 h-7 rounded-xl bg-primary flex items-center justify-center shadow-sm shadow-primary/30">
-                <svg width="12" height="12" viewBox="0 0 28 28" fill="none">
+        <div className="p-6 grid grid-cols-1 md:grid-cols-[220px_1fr] gap-5 min-h-90">
+          <div className="bg-background rounded-xl p-4 flex flex-col gap-2">
+            <div className="flex items-center gap-2 px-3 py-2 mb-3">
+              <div className="w-7 h-7 bg-primary rounded-md flex items-center justify-center shrink-0">
+                <svg width="14" height="14" viewBox="0 0 28 28" fill="none">
                   <path
                     d="M8 20V10l6 5 6-5v10"
                     stroke="white"
@@ -88,93 +73,105 @@ export default function Mockup() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  <circle cx="14" cy="9" r="2" fill="white" />
                 </svg>
               </div>
               <span className="text-sm font-bold">NexusCRM</span>
             </div>
-            {[
-              ["Pipeline", true],
-              ["Leads", false],
-              ["Dashboard", false],
-              ["IA", false],
-            ].map(([label, active]) => (
+
+            {sidebarItems.map((item) => (
               <div
-                key={String(label)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium cursor-pointer transition-colors ${
-                  active
-                    ? "bg-primary/15 text-primary"
+                key={item.label}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium cursor-pointer transition-colors ${
+                  item.active
+                    ? "bg-primary/10 text-primary"
                     : "text-muted-foreground hover:bg-accent"
                 }`}
               >
-                {label}
+                <svg
+                  className="w-3.5 h-3.5 shrink-0"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d={item.d} />
+                </svg>
+                {item.label}
               </div>
             ))}
           </div>
 
-          {/* Main */}
-          <div className="flex flex-col gap-3">
-            {/* KPIs */}
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                ["48", "Leads ativos", "↑ 12%"],
-                ["R$142k", "Valor no funil", "↑ 8%"],
-                ["34%", "Conversão", "↑ 3pp"],
-              ].map(([v, l, d]) => (
-                <div key={l} className="bg-muted rounded-2xl p-3">
-                  <div className="text-base font-bold tabular-nums">{v}</div>
-                  <div className="text-[10px] text-muted-foreground uppercase tracking-wide">
-                    {l}
+          <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-3 gap-3">
+              {kpis.map((k) => (
+                <div key={k.label} className="bg-muted rounded-md px-4 py-3">
+                  <div className="text-lg font-bold text-foreground tabular-nums">
+                    {k.val}
                   </div>
-                  <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
-                    {d}
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-wide mt-0.5">
+                    {k.label}
+                  </div>
+                  <div className="text-[10px] text-green-500 font-semibold mt-0.5">
+                    {k.delta}
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Kanban header */}
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold">Pipeline de Vendas</span>
-              <span className="bg-primary/15 text-primary text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+              <span className="text-sm font-semibold">Pipeline de Vendas</span>
+              <span className="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wide">
                 IA ATIVA
               </span>
             </div>
 
-            {/* Kanban columns */}
-            <div className="grid grid-cols-4 gap-2 max-sm:grid-cols-2">
-              {cols.map((col, i) => (
-                <div key={col} className="bg-muted rounded-2xl p-2">
-                  <div className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground mb-2 flex justify-between items-center">
-                    <span>{col}</span>
-                    <span className="bg-accent text-muted-foreground px-1.5 rounded-full">
-                      {[4, 3, 2, 5][i]}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              {kanban.map((col) => (
+                <div key={col.stage} className="bg-muted rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                      {col.stage}
+                    </span>
+                    <span className="bg-accent text-muted-foreground text-[9px] px-1.5 py-0.5 rounded-full">
+                      {col.count}
                     </span>
                   </div>
-                  <div className="bg-card border border-border rounded-xl p-2">
-                    <div className="text-[11px] font-semibold">
-                      {leads[i].name}
+
+                  {col.cards.map((card) => (
+                    <div
+                      key={card.name}
+                      className="bg-card border border-border rounded-md p-3 mb-2 last:mb-0"
+                    >
+                      <div className="text-xs font-semibold text-foreground mb-1">
+                        {card.name}
+                      </div>
+                      <div className="text-[10px] text-muted-foreground mb-2">
+                        {card.co}
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span
+                          className={`text-[10px] font-bold ${
+                            card.score >= 85
+                              ? "text-green-500"
+                              : card.score >= 65
+                                ? "text-amber-500"
+                                : "text-muted-foreground"
+                          }`}
+                        >
+                          ⬤ {card.score}
+                        </span>
+                        <span className="text-[10px] text-muted-foreground">
+                          {card.val}
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-[10px] text-muted-foreground mb-1.5">
-                      {leads[i].company}
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span
-                        className={`text-[10px] font-bold ${leads[i].color}`}
-                      >
-                        ⬤ {leads[i].score}
-                      </span>
-                      <span className="text-[10px] text-muted-foreground">
-                        {leads[i].value}
-                      </span>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               ))}
             </div>
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

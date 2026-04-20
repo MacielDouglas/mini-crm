@@ -37,11 +37,6 @@ const stack: StackItem[] = [
   },
 ];
 
-// Ícones ainda sem SVG local — usar img temporariamente
-// const stackImg = [
-//   { name: "Groq AI", icon: "https://cdn.simpleicons.org/groq/f55036" },
-// ];
-
 export default function StackSection() {
   return (
     <section
@@ -71,23 +66,6 @@ export default function StackSection() {
               {name}
             </div>
           ))}
-
-          {/* Fallback img enquanto não tiver SVG local */}
-          {/* {stackImg.map(({ name, icon }) => (
-            <div
-              key={name}
-              className="flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2 text-xs font-semibold text-muted-foreground hover:border-primary hover:text-primary transition-all cursor-default"
-            >
-              <img
-                src={icon}
-                alt={name}
-                width={16}
-                height={16}
-                className="shrink-0 opacity-80"
-              />
-              {name}
-            </div>
-          ))} */}
         </div>
       </div>
     </section>
